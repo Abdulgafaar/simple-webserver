@@ -115,7 +115,7 @@ resource "aws_route" "private-route" {
 resource "aws_route_table_association" "private-RTB-association" {
   for_each = aws_subnet.private-subnet
   subnet_id = each.value.id
-  route_table_id = element(local.private-route-table-ids )
+  route_table_id = element(local.private-route-table-ids,
     index(keys(aws_subnet.private-subnet), each.key )
     )
 }
