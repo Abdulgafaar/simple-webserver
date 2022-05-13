@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket = "abdul-terraform-backend-state"
-    key = "terraform.tfstate"
-    region = "eu-west-1"
+    bucket         = "abdul-terraform-backend-state"
+    key            = "terraform.tfstate"
+    region         = "eu-west-1"
     dynamodb_table = "terraform-statetable"
   }
   required_providers {
