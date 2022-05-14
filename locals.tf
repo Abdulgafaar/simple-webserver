@@ -1,15 +1,19 @@
 locals {
-  tags = merge(var.tags, {
+  tags = {
     created_by = "terraform"
-  })
+    environment = "dev"
+  }
 
-  azs = slice(data.aws_availability_zones.azs.names,
-    0,
-    var.az-count
-  )
-  nat_gateway_count = var.nat-gateway ? 1 : var.az-count
-  nat_azs           = slice(local.azs, 0, local.nat_gateway_count)
+  az-count = 3
+  vpc-cidr-block = "172.30.0.0/16"
+  public-superset = cidrsubnet(local.vpc-cidr-block, 3 , 0 )
+  private-superset = cidrsubnet(local.vpc-cidr-block, 3 , 1)
 
-  public-subnet-ids       = [for key, public_subnet in aws_subnet.public-subnet : public_subnet.id]
-  private-route-table-ids = [for key, route_table in aws_route_table.private-RTB : aws_route_table]
+  public-subnets = [for index in range(local.az-count) :
+          cidrsubnet(local.public-superset, 3 ,index )
+  ]
+
+  private-subnets = [for index in range(local.az-count) :
+  cidrsubnet(local.private-superset, 3 ,index )
+  ]
 }

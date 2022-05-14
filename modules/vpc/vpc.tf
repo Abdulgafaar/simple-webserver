@@ -2,7 +2,7 @@ resource "aws_vpc" "vpc" {
   enable_dns_hostnames = true
   enable_dns_support   = true
   cidr_block           = var.vpc-cidr
-  tags = marge(local.tags, {
+  tags = merge(local.tags, {
     Name = var.resource-identifier
   })
 }
@@ -41,7 +41,7 @@ resource "aws_route_table" "public-RTB" {
 }
 
 resource "aws_route" "public-route" {
-  route_table_id         = aws_route_table.public-RTB
+  route_table_id         = aws_route_table.public-RTB.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.internet-GW.id
 
@@ -108,7 +108,7 @@ resource "aws_route" "private-route" {
   nat_gateway_id         = aws_nat_gateway.nat-GW[each.key].id
 
   timeouts {
-    create = "5m"
+    create = "4m"
   }
 }
 
