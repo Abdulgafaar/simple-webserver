@@ -6,3 +6,5 @@ variable "resource-identifier" {
   description = "Resource identifier"
   default = "Bestseller"
 }
+
+

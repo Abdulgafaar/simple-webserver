@@ -4,8 +4,10 @@ locals {
     environment = "dev"
   }
 
+
+
   az-count = 3
-  vpc-cidr-block = "172.30.0.0/16"
+  vpc-cidr-block = "172.16.0.0/20"
   public-superset = cidrsubnet(local.vpc-cidr-block, 3 , 0 )
   private-superset = cidrsubnet(local.vpc-cidr-block, 3 , 1)
 
@@ -17,3 +19,4 @@ locals {
   cidrsubnet(local.private-superset, 3 ,index )
   ]
 }
+
