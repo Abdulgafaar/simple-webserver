@@ -6,7 +6,7 @@ output "alb-id" {
   value = aws_lb.webserver-ELB.dns_name
 }
 
-output "webserver" {
-  value = aws_instance.webserver-instance.id
+output "aws_ami" {
+  value = data.aws_ami.webserver-ami.image_id
 }
 

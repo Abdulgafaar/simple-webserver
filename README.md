@@ -1,4 +1,19 @@
 # simple-webserver
+To run the deployment script 
+
+# Set the backend configuration
+I used S3 for backend state and Dynamodb for the stateLock so this can be commented out and set to local or a nuw backend state
+
+# Initialize the Terraform
+-- terraform init
+
+# Run a plan to see the resources to be provisioned
+
+-- terraform plan
+
+# deploy the resources by running below command
+
+-- terraform deploy
 
 This web server will be deployed using IaC Terraform 
 It will be running on an Ec2 instance in a Private subnet

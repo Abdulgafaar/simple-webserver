@@ -15,5 +15,6 @@ module "webserver" {
   public-subnets      = module.vpc.public-subnets
   private-subnets     = module.vpc.private-subnets
   az-count            = local.az-count
+  aws_ami             = module.webserver.aws_ami
 
 }

@@ -43,7 +43,7 @@ variable "private-subnets" {
   type        = map
   default     = {}
 }
-####################################
+
 variable "az-count" {}
 
 variable "tags" {
@@ -51,3 +51,5 @@ variable "tags" {
   type        = map(any)
   default     = {}
 }
+
+variable "aws_ami" {}

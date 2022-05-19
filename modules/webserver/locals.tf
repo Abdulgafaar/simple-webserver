@@ -1,22 +1,3 @@
-#locals {
-#  ingress-rules = [{
-#    name        = "HTTPS"
-#    port        = 443
-#    description = "Ingress rule for port 443"
-#  },
-#    {
-#      name        = "HTTP"
-#      port        = 80
-#      description = "Ingress rule for port 80"
-#    },
-#    {
-#      name        = "SSH"
-#      port        = 22
-#      description = "Ingress rule for port 22"
-#    }
-#  ]
-#}
-
 
 locals {
   tags = merge(var.tags, {

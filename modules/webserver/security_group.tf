@@ -8,7 +8,7 @@ resource "aws_security_group" "webserver-SG" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port = 22
+    from_port = 80
     to_port = 80
     protocol = "tcp"
     security_groups = [aws_security_group.elb-SG.id]
@@ -18,6 +18,10 @@ resource "aws_security_group" "webserver-SG" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "webserver-SG"
   }
 }
 
@@ -42,5 +46,9 @@ resource "aws_security_group" "elb-SG" {
     protocol  = "tcp"
     to_port   = 443
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "ELB-Security-Group"
   }
 }

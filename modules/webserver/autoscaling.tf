@@ -1,32 +1,44 @@
 resource "aws_launch_configuration" "webserver-LC" {
+  name                   = "Bestseller-LC"
+#  image_id               = data.aws_ami.webserver-ami.image_id
   image_id               = data.aws_ami.webserver-ami.image_id
   instance_type          = "t2.micro"
-#  security_groups        = aws_security_group.webserver-SG
+  security_groups        = [aws_security_group.webserver-SG.id]
   key_name               = aws_key_pair.webserver-key.key_name
+  iam_instance_profile = aws_iam_instance_profile.SSM-profile.name
+
+
   user_data = <<-EOF
               #!/bin/bash
-              echo "Hello, World" > index.html
-              nohup busybox httpd -f -p 8080 &
+              sudo apt-get -y update
+              sudo apt-get -y install nginx
+              sudo apt-get -y install httpd
+              systemctl start httpd
+              systemctl enable httpd
+              echo 'Hello world!' >> /var/www/html/index.html
               EOF
   lifecycle {
     create_before_destroy = true
   }
 }
 
-
-
 resource "aws_autoscaling_group" "webserver-ASG" {
   launch_configuration = aws_launch_configuration.webserver-LC.name
-  availability_zones = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
   min_size = 1
   max_size = 3
-  load_balancers = [aws_lb.webserver-ELB.id]
+#  load_balancers = [aws_lb.webserver-ELB.name]
   health_check_type = "ELB"
+  vpc_zone_identifier = [for subnet in var.private-subnets : subnet.id]
   tag {
     key                 = "Name"
     value               = "webserver-asg"
     propagate_at_launch = true
   }
+}
+
+resource "aws_autoscaling_attachment" "alb-attachment" {
+  autoscaling_group_name = aws_autoscaling_group.webserver-ASG.id
+  alb_target_group_arn = aws_lb_target_group.webserver-TG.arn
 }
 
 resource "aws_autoscaling_policy" "scaling-policy" {
