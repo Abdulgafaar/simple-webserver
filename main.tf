@@ -1,6 +1,6 @@
-module "vpc" {
-  source              = "./modules/vpc"
-  vpc-cidr            = local.vpc-cidr-block
+module "VPC" {
+  source              = "app.terraform.io/GreenSpot/VPC/GreenSport"
+   version = "1.0.0"
   public-subnets      = local.public-subnets
   private-subnets     = local.private-subnets
   resource-identifier = var.resource-identifier
@@ -9,7 +9,8 @@ module "vpc" {
 }
 
 module "webserver" {
-  source              = "./modules/webserver"
+  source              = "app.terraform.io/GreenSpot/webserver/GreenSport"
+  version = "1.0.0"
   resource-identifier = var.resource-identifier
   vpc                 = module.vpc.vpc-id
   public-subnets      = module.vpc.public-subnets
