@@ -1,6 +1,6 @@
-module "vpc" {
+module "VPC" {
   source              = "app.terraform.io/greenspot/vpc/greensport"
-  version = "1.0.0"
+  version             = "1.0.0"
   public-subnets      = local.public-subnets
   private-subnets     = local.private-subnets
   resource-identifier = var.resource-identifier
