@@ -34,5 +34,16 @@ terraform {
 
 # Configure the AWS Provider
 provider "aws" {
-  region = var.region
+  region = local.region
+  allowed_account_ids = [local.aws_account_id]
+
+  assume_role {
+    role_arn = "arn:aws:iam::${local.aws_account_id}:role/terraform-admin-role"
+  }
+
+}
+
+locals {
+  aws_account_id = "964165057512"
+  region        = "eu-west-1"
 }
